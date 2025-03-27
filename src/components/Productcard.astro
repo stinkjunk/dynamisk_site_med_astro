@@ -1,0 +1,20 @@
+---
+const { product } = Astro.props;
+---
+
+<article
+  class=`smallProduct${product.discount && " onSale"}${product.soldout && " soldOut"}`
+>
+  <img
+    src=`https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp`
+    alt=`${product.brandname}: ${product.productdisplayname}`
+  />
+  <h3>{product.productdisplayname}</h3>
+  <p class=`subtle`>{product.subcategory} | {product.brandname}</p>
+  <p class=`price`>DKK <span>{product.price}</span>,-</p>
+  <div class=`discounted`>
+    <p>Now DKK <span>{Math.ceil((product.price / 100) * product.discount)}</span>,-</p>
+    <p><span>{product.discount}</span>%</p>
+  </div>
+  <a href=`product`>Read More</a>
+</article>

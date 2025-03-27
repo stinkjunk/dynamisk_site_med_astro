@@ -1,0 +1,15 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Productcard from "../components/Productcard.astro";
+
+//@ts-nocheck
+const baseURL = "https://kea-alt-del.dk";
+let fashionURL = baseURL + "/t7/api/products/";
+const data = await fetch(fashionURL).then((res) => res.json());
+console.log(data);
+---
+
+<Layout pagetitle="Product List" bodytype="productlist">
+  <h2>Apparel</h2>
+  {data.map((product) => <Productcard {product} />)}
+</Layout>
