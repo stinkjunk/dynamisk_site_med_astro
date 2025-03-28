@@ -1,0 +1,94 @@
+---
+//@ts-nocheck
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const baseURL = "https://kea-alt-del.dk";
+  let fashionURL = baseURL + "/t7/api/products/";
+  const data = await fetch(fashionURL).then((res) => res.json());
+  return data.map((product) => {
+    return {
+      params: { myProductID: product.id },
+      props: { myProduct: product },
+    };
+  });
+}
+const { myProduct } = Astro.props;
+---
+
+<Layout mainid="productContainer" bodytype="product" pagetitle={myProduct.productdisplayname}>
+  <!-- <figure>
+    <img
+      src=`https://kea-alt-del.dk/t7/images/webp/640/${myProduct.id}.webp`
+      alt=`${myProduct.productdisplayname}`
+      class="productImage"
+    />
+    <span class="saleLabel">Udsalg!</span>
+  </figure>
+  <section class="productDetails">
+    <h2 class="productName">${myProduct.productdisplayname}</h2>
+    <div>
+      <p class="articleType">
+        <span class="bold">Type:</span>
+        {myProduct.articletype}
+      </p>
+      <p class="productCategory">
+        <span class="bold">Kategori:</span>
+        {myProduct.category}, {myProduct.subcategory}
+      </p>
+      <p class="productPrice">
+        <span class="bold">Pris:</span>
+        {myProduct.price},-
+      </p>
+    </div>
+    <button class="buyButton">Køb nu</button>
+  </section> -->
+
+  <main >
+    <figure>
+      <img
+        src=`https://kea-alt-del.dk/t7/images/webp/640/${myProduct.id}.webp`
+        alt=`${myProduct.productdisplayname}`
+        class="productImage"
+      />
+      {
+        myProduct.discount == null ? (
+          ""
+        ) : (
+          <span class="saleLabel">{`Udsalg: -${myProduct.discount}%!`}</span>
+        )
+      }
+    </figure>
+    <section class="productDetails">
+      <h2 class="productName">${myProduct.productdisplayname}</h2>
+
+      <div>
+        <p class="articleType">
+          <span class="bold">Type:</span>
+          {myProduct.articletype}
+        </p>
+        <p class="productCategory">
+          <span class="bold">Kategori:</span>
+          {myProduct.category}, {myProduct.subcategory}
+        </p>
+        {
+          myProduct.discount == null ? (
+            <p class="productPrice">
+              <span class="bold">Pris: {myProduct.price},-</span>
+            </p>
+          ) : (
+            <p class="productPrice">
+              <>
+                <span style="opacity: 50%; text-decoration:line-through">
+                  Pris: {myProduct.price},-
+                </span>
+                <span class="bold">Ny pris: {myProduct.price},-</span>
+              </>
+            </p>
+          )
+        }
+      </div>
+      <button class="buyButton">Køb nu</button>
+    </section>
+  </main>
+</Layout>

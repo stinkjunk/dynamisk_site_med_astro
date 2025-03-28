@@ -1,9 +1,11 @@
 ---
+//@ts-nocheck
 const { product } = Astro.props;
+const { baseURL } = Astro.props;
 ---
 
 <article
-  class=`smallProduct${product.discount && " onSale"}${product.soldout && " soldOut"}`
+  class=`smallProduct${product.discount && " onSale"}${product.soldout == 1 && " soldOut"}`
 >
   <img
     src=`https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp`
@@ -13,8 +15,22 @@ const { product } = Astro.props;
   <p class=`subtle`>{product.subcategory} | {product.brandname}</p>
   <p class=`price`>DKK <span>{product.price}</span>,-</p>
   <div class=`discounted`>
-    <p>Now DKK <span>{Math.ceil((product.price / 100) * product.discount)}</span>,-</p>
+    <p>
+      Now DKK <span>{Math.ceil((product.price / 100) * product.discount)}</span
+      >,-
+    </p>
     <p><span>{product.discount}</span>%</p>
   </div>
-  <a href=`product`>Read More</a>
+  {
+    product.soldout == 1 ? (
+      <p>
+        <span style="opacity: 50%; text-decoration:line-through">
+          Read more
+        </span>
+        Sold out!
+      </p>
+    ) : (
+      <a href={`product/product${product.id}`}>Read More</a>
+    )
+  }
 </article>

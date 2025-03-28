@@ -1,6 +1,7 @@
 ---
 const { pagetitle } = Astro.props;
 const {bodytype} = Astro.props;
+const {mainid} = Astro.props;
 console.log(pagetitle);
 import Header from "../components/Header.astro";
 import "../assets/css/base.css";
@@ -20,7 +21,7 @@ import "../assets/css/style.css";
   </head>
   <body class={bodytype}>
     <Header />
-	<main>
+	<main id={mainid}>
     <slot />
 	</main>
   </body>
